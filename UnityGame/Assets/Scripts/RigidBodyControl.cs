@@ -1,76 +1,69 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class RigidBodyControl : MonoBehaviour
 {
-    bool isGrounded;
-    Rigidbody rigidbody;
-    Vector3 direction = Vector3.zero;
     [SerializeField] float speed = 10.0f;
-    [SerializeField] float jumpHeight = 3f;
-    [SerializeField] LayerMask ground;
-    [SerializeField] float groundDistance = 0.2f;
+    [SerializeField] float rotateSpeed = 10.0f;
+    [SerializeField] float jumpForce = 5.0f;
+    Rigidbody rigidBody;
+    private bool isGround = false;
+    private float h, v;
 
-    private void Awake()
-    {
-        rigidbody = GetComponent<Rigidbody>();
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
-        
+        rigidBody = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        GroundCheck();
-        Move();
+        CheckGround();
+    }
+
+    void FixedUpdate()
+    {
+        Move();     
         Jump();
     }
 
-    private void FixedUpdate()
+    void Move()
     {
-        rigidbody.MovePosition(rigidbody.position + direction * speed * Time.deltaTime);
-    }
+        h = Input.GetAxis("Horizontal");
+        v = Input.GetAxis("Vertical");
 
-    public void Move()
-    {
-        direction.x = Input.GetAxisRaw("Horizontal");
-        direction.z = Input.GetAxisRaw("Vertical");
+        Vector3 dir = new Vector3(h, 0, v);
 
-        direction.Normalize();
-
-        if (direction != Vector3.zero)
+        if (!(h == 0 && v == 0))
         {
-            transform.forward = direction;
+            transform.position += dir * speed * Time.deltaTime;
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
         }
     }
 
-    public void Jump()
+    void Jump()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded == true)
+        if (Input.GetButtonDown("Jump") && isGround)
         {
-            Vector3 jumpVelocity = Vector3.up * Mathf.Sqrt(jumpHeight * -Physics.gravity.y);
-            rigidbody.AddForce(jumpVelocity, ForceMode.VelocityChange);
+            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         }
     }
 
-    public void GroundCheck()
+    private void CheckGround()
     {
-        RaycastHit raycastHit;
+        RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, groundDistance, ground))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.1f))
         {
-            isGrounded = true;
+            if (hit.transform.CompareTag("Ground"))
+            {
+                isGround = true;
+
+                return;
+            }
         }
-        else
-        {
-            isGrounded = false;
-        }
+
+        isGround = false;
     }
 }
