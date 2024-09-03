@@ -5,16 +5,28 @@ using UnityEngine.UIElements;
 
 public class RigidBodyControl : MonoBehaviour
 {
-    [SerializeField] float speed = 10.0f;
+    [SerializeField] float walkSpeed = 10.0f;
+    [SerializeField] float runSpeed = 8.0f;
     [SerializeField] float rotateSpeed = 10.0f;
     [SerializeField] float jumpForce = 5.0f;
     Rigidbody rigidBody;
     private bool isGround = false;
     private float h, v;
 
-    void Start()
+    public float Speed
+    {
+        get { return walkSpeed; }
+        set { walkSpeed = value; }
+    }
+
+    private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
+    }
+
+    void Start()
+    {
+        
     }
 
     void Update()
@@ -24,22 +36,40 @@ public class RigidBodyControl : MonoBehaviour
 
     void FixedUpdate()
     {
+        Run();
         Move();     
         Jump();
     }
 
     void Move()
     {
-        h = Input.GetAxis("Horizontal");
-        v = Input.GetAxis("Vertical");
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
 
         Vector3 dir = new Vector3(h, 0, v);
 
         if (!(h == 0 && v == 0))
         {
-            transform.position += dir * speed * Time.deltaTime;
+            transform.position += dir * walkSpeed * Time.deltaTime;
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
         }
+    }
+
+    void Run()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            h = Input.GetAxisRaw("Horizontal");
+            v = Input.GetAxisRaw("Vertical");
+
+            Vector3 dir = new Vector3(h, 0, v);
+
+            if (!(h == 0 && v == 0))
+            {
+                transform.position += dir * runSpeed * Time.deltaTime;
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
+            }
+        }     
     }
 
     void Jump()

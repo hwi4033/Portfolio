@@ -1,17 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public enum State
-{
-    IDLE,
-    WALK
-}
+[RequireComponent(typeof(RigidBodyControl))]
 
 public class Animations : MonoBehaviour
 {
     [SerializeField] Animator animator;
-    private State state;
+    private RigidBodyControl rb;
     private float hAxis;
     private float vAxis;
 
@@ -24,8 +21,8 @@ public class Animations : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hAxis = Input.GetAxis("Horizontal");
-        vAxis = Input.GetAxis("Vertical");
+        hAxis = Input.GetAxisRaw("Horizontal");
+        vAxis = Input.GetAxisRaw("Vertical");
 
         if (hAxis == 0 && vAxis == 0)
         {
@@ -34,26 +31,42 @@ public class Animations : MonoBehaviour
         else if (hAxis != 0 || vAxis != 0)
         {
             OnWalk();
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                OnRun();
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnAttack();
         }
     }
 
     public void OnIdle()
     {
-        animator.SetBool("Walking", false);
+        animator.SetBool("Walk", false);
     }
 
     public void OnWalk()
     {
-        animator.SetBool("Walking", true);
+        animator.SetBool("Walk", true);
+        animator.SetBool("Run", false);
     }
 
     public void OnRun()
     {
-
+        animator.SetBool("Run", true);
     }
 
     public void OnJump()
     {
 
+    }
+
+    public void OnAttack()
+    {
+        animator.SetTrigger("Attack01");
     }
 }
