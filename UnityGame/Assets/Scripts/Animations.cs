@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[RequireComponent(typeof(RigidBodyControl))]
-
 public class Animations : MonoBehaviour
 {
     [SerializeField] Animator animator;
     private RigidBodyControl rb;
     private float hAxis;
     private float vAxis;
+    private bool arrowControl = true;
+
+    public bool ArrowControl
+    {
+        get { return arrowControl; }
+        set { arrowControl = value; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -36,11 +41,22 @@ public class Animations : MonoBehaviour
             {
                 OnRun();
             }
-        }
+        }           
 
         if (Input.GetMouseButtonDown(0))
         {
-            OnAttack();
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") == false)
+            {
+                OnAttack();
+            }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Space) && arrowControl)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") == false)
+            {
+                OnJump();
+            }           
         }
     }
 
@@ -62,11 +78,21 @@ public class Animations : MonoBehaviour
 
     public void OnJump()
     {
-
+        animator.SetTrigger("Jump");
     }
 
     public void OnAttack()
     {
         animator.SetTrigger("Attack01");
+    }
+
+    public void ArrowTrue()
+    {
+        arrowControl = true;
+    }
+
+    public void ArrowFalse()
+    {
+        arrowControl = false;
     }
 }

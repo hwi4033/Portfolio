@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[RequireComponent(typeof(Animations))]
+
 public class RigidBodyControl : MonoBehaviour
 {
     [SerializeField] float walkSpeed = 10.0f;
     [SerializeField] float runSpeed = 8.0f;
     [SerializeField] float rotateSpeed = 10.0f;
     [SerializeField] float jumpForce = 5.0f;
+    Animations animations;
     Rigidbody rigidBody;
-    private bool isGround = false;
+    // private bool isGround = false;
+    private int jumpCount = 0;
     private float h, v;
 
     public float Speed
@@ -21,6 +25,7 @@ public class RigidBodyControl : MonoBehaviour
 
     private void Awake()
     {
+        animations = GetComponent<Animations>();
         rigidBody = GetComponent<Rigidbody>();
     }
 
@@ -31,14 +36,17 @@ public class RigidBodyControl : MonoBehaviour
 
     void Update()
     {
-        CheckGround();
+        // CheckGround();
     }
 
     void FixedUpdate()
     {
-        Run();
-        Move();     
-        Jump();
+        if (animations.ArrowControl == true)
+        {
+            Run();
+            Move();
+            Jump();
+        }                  
     }
 
     void Move()
@@ -74,26 +82,30 @@ public class RigidBodyControl : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetButtonDown("Jump") && isGround)
+        if (Input.GetButtonDown("Jump") && jumpCount == 0)
         {
+            jumpCount++;
+
             rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         }
+
+        jumpCount--;
     }
 
-    private void CheckGround()
-    {
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.1f))
-        {
-            if (hit.transform.CompareTag("Ground"))
-            {
-                isGround = true;
-
-                return;
-            }
-        }
-
-        isGround = false;
-    }
+    // private void CheckGround()
+    // {
+    //     RaycastHit hit;
+    // 
+    //     if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.01f))
+    //     {
+    //         if (hit.transform.CompareTag("Ground"))
+    //         {
+    //             isGround = true;
+    // 
+    //             return;
+    //         }
+    //     }
+    // 
+    //     isGround = false;
+    // }
 }
