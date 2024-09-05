@@ -41,20 +41,27 @@ public class RigidBodyControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (animations.ArrowControl == true)
-        {
-            Run();
-            Move();
-            Jump();
-        }                  
-    }
-
-    void Move()
-    {
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
         Vector3 dir = new Vector3(h, 0, v);
+        rigidBody.velocity = Vector3.zero;
+        rigidBody.angularVelocity = Vector3.zero;
+
+        if (animations.ArrowControl == true)
+        {
+            Run(dir);
+            Move(dir);
+            Jump();
+        }                  
+    }
+
+    void Move(Vector3 dir)
+    {
+        // h = Input.GetAxisRaw("Horizontal");
+        // v = Input.GetAxisRaw("Vertical");
+        // 
+        // Vector3 dir = new Vector3(h, 0, v);
 
         if (!(h == 0 && v == 0))
         {
@@ -63,14 +70,14 @@ public class RigidBodyControl : MonoBehaviour
         }
     }
 
-    void Run()
+    void Run(Vector3 dir)
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            h = Input.GetAxisRaw("Horizontal");
-            v = Input.GetAxisRaw("Vertical");
-
-            Vector3 dir = new Vector3(h, 0, v);
+            // h = Input.GetAxisRaw("Horizontal");
+            // v = Input.GetAxisRaw("Vertical");
+            // 
+            // Vector3 dir = new Vector3(h, 0, v);
 
             if (!(h == 0 && v == 0))
             {
