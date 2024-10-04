@@ -17,9 +17,9 @@ public class RigidBodyControl : MonoBehaviour
     private int jumpCount = 0;
     private float h, v;
 
-    public float Speed
+    public float WalkSpeed
     {
-        get { return walkSpeed; }
+        get { return  walkSpeed; }
         set { walkSpeed = value; }
     }
 
@@ -45,8 +45,8 @@ public class RigidBodyControl : MonoBehaviour
         v = Input.GetAxisRaw("Vertical");
 
         Vector3 dir = new Vector3(h, 0, v);
-        rigidBody.velocity = Vector3.zero;
-        rigidBody.angularVelocity = Vector3.zero;
+        // rigidBody.velocity = Vector3.zero;
+        // rigidBody.angularVelocity = Vector3.zero;
 
         if (animations.ArrowControl == true)
         {
@@ -65,7 +65,11 @@ public class RigidBodyControl : MonoBehaviour
 
         if (!(h == 0 && v == 0))
         {
-            transform.position += dir * walkSpeed * Time.deltaTime;
+            if (transform.GetComponent<RayCast>().IsWall() != true)
+            {
+                transform.position += dir * walkSpeed * Time.deltaTime;                
+            }
+
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
         }
     }
@@ -81,7 +85,11 @@ public class RigidBodyControl : MonoBehaviour
 
             if (!(h == 0 && v == 0))
             {
-                transform.position += dir * runSpeed * Time.deltaTime;
+                if (transform.GetComponent<RayCast>().IsWall() != true)
+                {
+                    transform.position += dir * runSpeed * Time.deltaTime;
+                }
+
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
             }
         }     
@@ -93,7 +101,7 @@ public class RigidBodyControl : MonoBehaviour
         {
             jumpCount++;
 
-            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
         jumpCount--;

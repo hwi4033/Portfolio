@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RayCast : MonoBehaviour
 {
+    [SerializeField] float rayDistance = 0.2f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,14 +15,19 @@ public class RayCast : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        IsWall();
+        
     }
 
-    void IsWall()
+    public bool IsWall()
     {
-        if (Physics.Raycast(transform.position + Vector3.up * 2.0f, transform.forward, 0.2f))
+        RaycastHit raycastHit;
+
+        Debug.DrawRay(transform.position, transform.forward * rayDistance, Color.red);
+
+        if (Physics.Raycast(transform.position, transform.forward, out raycastHit, rayDistance))
         {
-            Debug.DrawRay(transform.position, transform.forward, Color.red);
+            return true;
         }
+        else return false;
     }
 }
