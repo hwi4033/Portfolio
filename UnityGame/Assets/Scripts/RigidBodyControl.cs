@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UIElements;
-
-[RequireComponent(typeof(Animations))]
 
 public class RigidBodyControl : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class RigidBodyControl : MonoBehaviour
     [SerializeField] float jumpForce = 5.0f;
     Animations animations;
     Rigidbody rigidBody;
-    // private bool isGround = false;
+
     private int jumpCount = 0;
     private float h, v;
 
@@ -36,7 +35,7 @@ public class RigidBodyControl : MonoBehaviour
 
     void Update()
     {
-        // CheckGround();
+        
     }
 
     void FixedUpdate()
@@ -44,30 +43,26 @@ public class RigidBodyControl : MonoBehaviour
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
-        Vector3 dir = new Vector3(h, 0, v);
-        // rigidBody.velocity = Vector3.zero;
-        // rigidBody.angularVelocity = Vector3.zero;
+        Vector3 dir = transform.forward * v + transform.right * h;
+
+        // Vector3 dir = new Vector3(h, 0, v).normalized;
 
         if (animations.ArrowControl == true)
         {
             Run(dir);
             Move(dir);
             Jump();
-        }                  
+        }
     }
 
     void Move(Vector3 dir)
     {
-        // h = Input.GetAxisRaw("Horizontal");
-        // v = Input.GetAxisRaw("Vertical");
-        // 
-        // Vector3 dir = new Vector3(h, 0, v);
-
         if (!(h == 0 && v == 0))
         {
             if (transform.GetComponent<RayCast>().IsWall() != true)
             {
-                transform.position += dir * walkSpeed * Time.deltaTime;                
+                rigidBody.MovePosition(transform.position + dir * walkSpeed * Time.deltaTime);
+                // transform.position += dir * walkSpeed * Time.deltaTime;                
             }
 
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
@@ -78,16 +73,12 @@ public class RigidBodyControl : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            // h = Input.GetAxisRaw("Horizontal");
-            // v = Input.GetAxisRaw("Vertical");
-            // 
-            // Vector3 dir = new Vector3(h, 0, v);
-
             if (!(h == 0 && v == 0))
             {
                 if (transform.GetComponent<RayCast>().IsWall() != true)
                 {
-                    transform.position += dir * runSpeed * Time.deltaTime;
+                    rigidBody.MovePosition(transform.position + dir * runSpeed * Time.deltaTime);
+                    // transform.position += dir * runSpeed * Time.deltaTime;
                 }
 
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
@@ -106,21 +97,4 @@ public class RigidBodyControl : MonoBehaviour
 
         jumpCount--;
     }
-
-    // private void CheckGround()
-    // {
-    //     RaycastHit hit;
-    // 
-    //     if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.01f))
-    //     {
-    //         if (hit.transform.CompareTag("Ground"))
-    //         {
-    //             isGround = true;
-    // 
-    //             return;
-    //         }
-    //     }
-    // 
-    //     isGround = false;
-    // }
 }
