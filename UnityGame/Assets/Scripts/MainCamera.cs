@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class MainCamera : CameraCenter
 {
-    [SerializeField] float distance = 5.0f;
-    [SerializeField] float height = 5.0f;
-    [SerializeField] float cameraSpeed = 10.0f;
+    [SerializeField] Vector3 targetHead;
+    [SerializeField] LayerMask cameraCollision;
 
     [SerializeField] float mouseX;
     [SerializeField] float mouseY;
@@ -14,38 +13,44 @@ public class MainCamera : CameraCenter
 
     private void Update()
     {
+        targetHead = target.transform.position + Vector3.up * 3.0f;
+    }
+
+    private void LateUpdate()
+    {
         if (Input.GetMouseButton(1))
         {
+            CameraCollision();
+
             MouseRotate();
         }
     }
 
     public void MouseRotate()
     {
-        mouseX = Input.GetAxisRaw("Mouse X"); // * mouseSpeed * Time.deltaTime;
-        mouseY = Input.GetAxisRaw("Mouse Y"); // * mouseSpeed * Time.deltaTime;
+        mouseX = Input.GetAxisRaw("Mouse X");
+        mouseY = Input.GetAxisRaw("Mouse Y");
 
         // mouseY = Mathf.Clamp(mouseY, 15, 15);
 
-        transform.RotateAround(target.transform.position, transform.up, mouseX * mouseSpeed * Time.deltaTime);
-        transform.RotateAround(target.transform.position, transform.right, -mouseY * mouseSpeed * Time.deltaTime);
+        transform.RotateAround(targetHead, transform.up, mouseX * mouseSpeed * Time.deltaTime);
+        transform.RotateAround(targetHead, transform.right, -mouseY * mouseSpeed * Time.deltaTime);
 
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
-
-        // https://yoonstone-games.tistory.com/114
     }
 
-    private void LateUpdate()
+    public void CameraCollision()
     {
-        // CameraMovement();
-    }
+        Vector3 distance = transform.position - targetHead;
+        RaycastHit hit;
 
-    public void CameraMovement()
-    {
-        transform.position = Vector3.Lerp(transform.position, target.transform.position - (target.transform.forward * distance) + Vector3.up * height, cameraSpeed * Time.deltaTime);
+        Debug.DrawRay(targetHead, distance, Color.red);
 
-        transform.LookAt(target.transform.position + Vector3.up * height);
+        if (Physics.Raycast(targetHead, distance, out hit, float.MaxValue, cameraCollision))
+        {
+            Debug.DrawRay(targetHead, distance, Color.red);
 
-        // transform.forward = Vector3.Lerp(transform.forward, target.transform.forward - (target.transform.forward * distance), cameraSpeed * Time.deltaTime);
+            transform.position = hit.point - distance.normalized;
+        }
     }
 }

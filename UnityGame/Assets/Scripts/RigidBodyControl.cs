@@ -59,11 +59,14 @@ public class RigidBodyControl : MonoBehaviour
     {
         if (!(h == 0 && v == 0))
         {
-            if (transform.GetComponent<RayCast>().IsWall() != true)
-            {
-                rigidBody.MovePosition(transform.position + dir * walkSpeed * Time.deltaTime);
-                // transform.position += dir * walkSpeed * Time.deltaTime;                
-            }
+            // if (transform.GetComponent<RayCast>().IsWall() != true)
+            // {
+            //     // rigidBody.MovePosition(transform.position + dir * walkSpeed * Time.deltaTime);
+            //     transform.position += dir * walkSpeed * Time.deltaTime;                
+            // }
+            
+            rigidBody.MovePosition(transform.position + dir * walkSpeed * Time.deltaTime);
+            // transform.position += dir * walkSpeed * Time.deltaTime;
 
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
         }
@@ -75,11 +78,13 @@ public class RigidBodyControl : MonoBehaviour
         {
             if (!(h == 0 && v == 0))
             {
-                if (transform.GetComponent<RayCast>().IsWall() != true)
-                {
-                    rigidBody.MovePosition(transform.position + dir * runSpeed * Time.deltaTime);
-                    // transform.position += dir * runSpeed * Time.deltaTime;
-                }
+                // if (transform.GetComponent<RayCast>().IsWall() != true)
+                // {
+                //     // rigidBody.MovePosition(transform.position + dir * runSpeed * Time.deltaTime);
+                //     transform.position += dir * runSpeed * Time.deltaTime;
+                // }
+                rigidBody.MovePosition(transform.position + dir * runSpeed * Time.deltaTime);
+                // transform.position += dir * runSpeed * Time.deltaTime;
 
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
             }
