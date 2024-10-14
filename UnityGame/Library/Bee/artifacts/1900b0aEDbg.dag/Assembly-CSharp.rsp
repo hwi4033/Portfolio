@@ -359,6 +359,7 @@
 "Assets/Scripts/CameraCenter.cs"
 "Assets/Scripts/MainCamera.cs"
 "Assets/Scripts/Manager/CursorManager.cs"
+"Assets/Scripts/Manager/MenuManager.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/RayCast.cs"
 "Assets/Scripts/RigidBodyControl.cs"
