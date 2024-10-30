@@ -14,7 +14,6 @@ public class Animations : MonoBehaviour
     public bool ArrowControl
     {
         get { return arrowControl; }
-        set { arrowControl = value; }
     }
 
     // Start is called before the first frame update

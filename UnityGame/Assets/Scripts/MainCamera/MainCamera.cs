@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainCamera : CameraCenter
+public class MainCamera : MainCameraCenter
 {
     [SerializeField] Vector3 targetHead;
     [SerializeField] LayerMask cameraCollision;
@@ -18,12 +18,9 @@ public class MainCamera : CameraCenter
 
     private void LateUpdate()
     {
-        if (Input.GetMouseButton(1))
-        {
-            CameraCollision();
+        // CameraRayCollision();
 
-            MouseRotate();
-        }
+        MouseRotate();
     }
 
     public void MouseRotate()
@@ -31,26 +28,20 @@ public class MainCamera : CameraCenter
         mouseX = Input.GetAxisRaw("Mouse X");
         mouseY = Input.GetAxisRaw("Mouse Y");
 
-        // mouseY = Mathf.Clamp(mouseY, 15, 15);
-
         transform.RotateAround(targetHead, transform.up, mouseX * mouseSpeed * Time.deltaTime);
         transform.RotateAround(targetHead, transform.right, -mouseY * mouseSpeed * Time.deltaTime);
 
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
     }
 
-    public void CameraCollision()
+    public void CameraRayCollision()
     {
         Vector3 distance = transform.position - targetHead;
-        RaycastHit hit;
+        RaycastHit hit;        
 
-        Debug.DrawRay(targetHead, distance, Color.red);
-
-        if (Physics.Raycast(targetHead, distance, out hit, float.MaxValue, cameraCollision))
+        if (Physics.Raycast(targetHead, distance, out hit, int.MaxValue, cameraCollision))
         {
-            Debug.DrawRay(targetHead, distance, Color.red);
-
             transform.position = hit.point - distance.normalized;
-        }
+        }       
     }
 }
