@@ -1,12 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainSceneCanvas : MonoBehaviour
 {
-    public void Start()
-    {
+    [SerializeField] GameObject childManager;
 
+    private void Start()
+    {
+        childManager = GameObject.Find("Child Manager");
+    }
+
+    public void Execute()
+    {
+        childManager.SetActive(false);
+
+        StartCoroutine(SceneryManager.Instance.AsyncLoad(1));
     }
 
     public void Option()

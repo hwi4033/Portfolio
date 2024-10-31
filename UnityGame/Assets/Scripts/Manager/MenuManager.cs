@@ -7,13 +7,11 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject menu;
     [SerializeField] bool menuActivated = false;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        menu = GameObject.Find("Menu");
     }
 
-    // Update is called once per frame
     void Update()
     {
         IsActivate();
@@ -39,10 +37,14 @@ public class MenuManager : MonoBehaviour
     public void OpenMenu()
     {
         menu.SetActive(true);
+
+        Time.timeScale = 0.0f;
     }
 
     public void CloseMenu()
     {
         menu.SetActive(false);
+
+        Time.timeScale = 1.0f;
     }
 }
