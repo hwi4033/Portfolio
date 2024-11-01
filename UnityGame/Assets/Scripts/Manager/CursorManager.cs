@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,32 @@ public class CursorManager : MonoBehaviour
 {
     [SerializeField] Cursor cursor;
 
-    void Start()
+    private static CursorManager instance;
+
+    public static CursorManager Instance
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        get { return instance; }
+    }
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+
+            return;
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public void SetCursor(bool state)
+    {
+        Cursor.visible = state;
+        Cursor.lockState = (CursorLockMode)Convert.ToInt32(!state);
     }
 }

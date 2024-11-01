@@ -6,7 +6,7 @@ public class Menu : MonoBehaviour
 {
     public void OnMainMenu()
     {
-
+        PopUpManager.Instance.Show(AlarmType.MAINMENU);
     }
 
     public void OnOption()
@@ -15,11 +15,6 @@ public class Menu : MonoBehaviour
     }
 
     public void OnInventory()
-    {
-
-    }
-
-    public void OnExit()
     {
 
     }

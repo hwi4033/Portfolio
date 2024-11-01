@@ -38,6 +38,8 @@ public class SceneryManager : Singleton<SceneryManager>
 
     public IEnumerator AsyncLoad(int index)
     {
+        CursorManager.Instance.SetCursor(false);
+
         loadingScenery.gameObject.SetActive(true);
 
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(index);
@@ -54,6 +56,8 @@ public class SceneryManager : Singleton<SceneryManager>
 
                 asyncOperation.allowSceneActivation = true;
 
+                loadTime = 0;
+
                 yield break;
             }
 
@@ -68,6 +72,6 @@ public class SceneryManager : Singleton<SceneryManager>
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        // SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

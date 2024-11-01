@@ -7,6 +7,12 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject menu;
     [SerializeField] bool menuActivated = false;
 
+    public bool MenuActivated
+    {
+        get { return menuActivated; }
+        set { menuActivated = value; }
+    }
+
     private void Start()
     {
         menu = GameObject.Find("Menu");
@@ -37,6 +43,8 @@ public class MenuManager : MonoBehaviour
     public void OpenMenu()
     {
         menu.SetActive(true);
+        
+        CursorManager.Instance.SetCursor(true);
 
         Time.timeScale = 0.0f;
     }
@@ -44,6 +52,8 @@ public class MenuManager : MonoBehaviour
     public void CloseMenu()
     {
         menu.SetActive(false);
+        
+        CursorManager.Instance.SetCursor(false);
 
         Time.timeScale = 1.0f;
     }

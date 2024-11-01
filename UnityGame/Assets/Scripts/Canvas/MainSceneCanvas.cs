@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainSceneCanvas : MonoBehaviour
+public class MainSceneCanvas : Singleton<MainSceneCanvas>
 {
     [SerializeField] GameObject childManager;
 
@@ -31,5 +31,12 @@ public class MainSceneCanvas : MonoBehaviour
 #else
         Application.Quit();
 #endif 
+    }
+
+    public void ReturnScene()
+    {
+        childManager.SetActive(true);
+
+        StartCoroutine(SceneryManager.Instance.AsyncLoad(0));
     }
 }
