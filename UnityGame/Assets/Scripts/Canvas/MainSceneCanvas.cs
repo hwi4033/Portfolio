@@ -14,9 +14,14 @@ public class MainSceneCanvas : Singleton<MainSceneCanvas>
 
     public void Execute()
     {
-        childManager.SetActive(false);
+        ShowMainScene(false);
 
         StartCoroutine(SceneryManager.Instance.AsyncLoad(1));
+    }
+
+    public void ShowMainScene(bool show)
+    {
+        childManager.SetActive(show);
     }
 
     public void Option()

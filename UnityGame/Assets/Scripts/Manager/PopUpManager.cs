@@ -5,6 +5,7 @@ using UnityEngine;
 public enum AlarmType
 {
     MAINMENU,
+    OBTAIN,
     OPTION,
     INVENTORY,
     EXIT
@@ -40,5 +41,10 @@ public class PopUpManager : MonoBehaviour
     public void Show(AlarmType alarmType)
     {
         popUp[(int)alarmType].gameObject.SetActive(true);
+    }
+
+    public void Hide(AlarmType alarmType)
+    {
+        popUp[(int)alarmType].gameObject.SetActive(false);
     }
 }

@@ -7,20 +7,13 @@ public class Inventory : MonoBehaviour
     [SerializeField] List<GameObject> lists;
     [SerializeField] GameObject slot;
 
-    [SerializeField] int listsCount = 9;
-
     private void Awake()
     {
         lists.Capacity = 10;
     }
 
-    private void Start()
+    public void AddItem(GameObject item)
     {
-        for (int i = 0; i < listsCount; i++)
-        {
-            GameObject clone = Instantiate(slot, transform);
-
-            lists.Add(clone);
-        }
+        lists.Add(item);
     }
 }

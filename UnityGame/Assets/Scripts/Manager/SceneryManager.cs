@@ -38,7 +38,12 @@ public class SceneryManager : Singleton<SceneryManager>
 
     public IEnumerator AsyncLoad(int index)
     {
-        CursorManager.Instance.SetCursor(false);
+        if (index == 0)
+        {
+            CursorManager.Instance.SetCursor(true);
+
+            MainSceneCanvas.Instance.ShowMainScene(false);
+        }
 
         loadingScenery.gameObject.SetActive(true);
 
@@ -53,6 +58,11 @@ public class SceneryManager : Singleton<SceneryManager>
             if (loadTime >= 3.0f)
             {
                 loadingScenery.gameObject.SetActive(false);
+
+                if (index == 0)
+                {
+                    MainSceneCanvas.Instance.ShowMainScene(true);
+                }
 
                 asyncOperation.allowSceneActivation = true;
 
