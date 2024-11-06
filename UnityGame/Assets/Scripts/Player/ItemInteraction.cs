@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ItemInteraction : MonoBehaviour
 {
+    private Inventory inventory;
+    [SerializeField] GameObject item;
+
     [SerializeField] string targetTag = "Item";
     [SerializeField] float distance = 2.0f;
 
@@ -16,12 +19,27 @@ public class ItemInteraction : MonoBehaviour
         {
             if (collision.CompareTag(targetTag))
             {
-                PopUpManager.Instance.Show(AlarmType.OBTAIN);                
-                
+                item = collision.gameObject;
+
+                PopUpManager.Instance.Show(AlarmType.OBTAIN);
+
+                ObtainItem();
+
                 return;
             }
         }
 
         PopUpManager.Instance.Hide(AlarmType.OBTAIN);
+    }
+
+    public void ObtainItem()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            // inventory
+            inventory.GetComponent<Inventory>().AddItem(item);
+
+            Destroy(item);
+        }
     }
 }

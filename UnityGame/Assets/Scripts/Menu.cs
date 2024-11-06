@@ -9,6 +9,11 @@ public class Menu : MonoBehaviour
         PopUpManager.Instance.Show(AlarmType.MAINMENU);
     }
 
+    public void CloseMainMenu()
+    {
+        PopUpManager.Instance.Hide(AlarmType.MAINMENU);
+    }
+
     public void OnOption()
     {
 

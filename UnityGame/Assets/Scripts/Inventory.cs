@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
     [SerializeField] List<GameObject> lists;
-    [SerializeField] GameObject slot;
 
     private void Awake()
     {
@@ -15,5 +15,6 @@ public class Inventory : MonoBehaviour
     public void AddItem(GameObject item)
     {
         lists.Add(item);
+        
     }
 }
