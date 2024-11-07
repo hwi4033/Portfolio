@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,8 +6,8 @@ using UnityEngine;
 
 public class ItemInteraction : MonoBehaviour
 {
-    private Inventory inventory;
-    [SerializeField] GameObject item;
+    [SerializeField] Inventory inventory;
+    [SerializeField] Items item;
 
     [SerializeField] string targetTag = "Item";
     [SerializeField] float distance = 2.0f;
@@ -19,11 +20,11 @@ public class ItemInteraction : MonoBehaviour
         {
             if (collision.CompareTag(targetTag))
             {
-                item = collision.gameObject;
+                item = collision.gameObject.GetComponent<Items>();
 
                 PopUpManager.Instance.Show(AlarmType.OBTAIN);
 
-                ObtainItem();
+                ObtainItem(collision.gameObject);
 
                 return;
             }
@@ -32,14 +33,13 @@ public class ItemInteraction : MonoBehaviour
         PopUpManager.Instance.Hide(AlarmType.OBTAIN);
     }
 
-    public void ObtainItem()
+    public void ObtainItem(GameObject collision)
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            // inventory
             inventory.GetComponent<Inventory>().AddItem(item);
 
-            Destroy(item);
+            // Destroy(collision);
         }
     }
 }
