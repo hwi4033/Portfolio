@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ItemInteraction : MonoBehaviour
 {
-    [SerializeField] Inventory inventory;
+    [SerializeField] Slot[] slots;
     [SerializeField] Items item;
 
     [SerializeField] string targetTag = "Item";
@@ -37,9 +37,15 @@ public class ItemInteraction : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            inventory.GetComponent<Inventory>().AddItem(item);
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i] == null)
+                {
+                    slots[i].Item.GetComponent<Slot>().AddItem(collision.GetComponent<Items>().ItemImage, collision.GetComponent<Items>().ItemCount);
+                }
+            }
 
-            // Destroy(collision);
+            Destroy(collision);
         }
     }
 }

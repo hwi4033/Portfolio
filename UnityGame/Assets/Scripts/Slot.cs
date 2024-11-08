@@ -7,24 +7,27 @@ public class Slot : Inventory
 {
     [SerializeField] Items item;
     [SerializeField] Sprite itemImage;
-    [SerializeField] Image image;
     [SerializeField] Text itemCount;
-    int temp = 0;
+    private int temp = 0;
+
+    public Items Item
+    {
+        get { return item; }
+    }
 
     private void Awake()
     {
         itemCount = GetComponent<Text>();
     }
 
-    public Items Item
+    public void AddItem(Sprite image, int itemCount)
     {
-        set { item = value; }
-    }
-
-    public void SetSlot(Items item)
-    {
-        itemImage = item.ItemImage;
-        temp += item.ItemCount;
+        temp += itemCount;
+        
+        if (image != null)
+        {
+            itemImage = image;
+        }
         // itemCount.text = temp.ToString();
 /*
 // 상위 객체에서 사용할 스프라이트를 연결할 변수
@@ -44,5 +47,5 @@ if (child != null)
         childSpriteRenderer.sprite = parentSprite;
     }
 */
-}
+    }
 }

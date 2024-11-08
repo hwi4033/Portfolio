@@ -7,7 +7,7 @@ public class Items : MonoBehaviour
 {
     [SerializeField] Sprite itemImage;
     [SerializeField] int itemCount;
-
+    
     public Sprite ItemImage
     {
         get { return itemImage; }

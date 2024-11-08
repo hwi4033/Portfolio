@@ -6,7 +6,6 @@ using UnityEngine;
 public class Animations : MonoBehaviour
 {
     [SerializeField] Animator animator;
-    private RigidBodyControl rb;
     private float hAxis;
     private float vAxis;
     private bool arrowControl = true;
@@ -16,13 +15,6 @@ public class Animations : MonoBehaviour
         get { return arrowControl; }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         hAxis = Input.GetAxisRaw("Horizontal");

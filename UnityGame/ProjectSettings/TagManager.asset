@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Item
+  - Collision
   layers:
   - Default
   - TransparentFX

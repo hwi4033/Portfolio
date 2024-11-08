@@ -12,15 +12,11 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        lists.Capacity = 10;
+        lists.Capacity = 20;
     }
 
-    public void AddItem(Items item)
+    private void Start()
     {
-        lists.Add(item);
-
-        slots[lists.Count - 1].Item = item;
-
-        slots[lists.Count - 1].GetComponent<Slot>().SetSlot(item);
+        slots = transform.GetComponentsInChildren<Slot>();
     }
 }

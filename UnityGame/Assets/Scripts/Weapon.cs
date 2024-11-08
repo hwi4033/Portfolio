@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] Transform pivot;
+    [SerializeField] Animations animations;
 
+    private void Awake()
+    {
+        animations = GetComponent<Animations>();
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        
+    }
 }
