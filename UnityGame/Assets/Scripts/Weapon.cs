@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] Animations animations;
+    [SerializeField] float damage = 17.5f;
 
-    private void Awake()
+    public float Damage
     {
-        animations = GetComponent<Animations>();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        
+        get { return damage; }
     }
 }

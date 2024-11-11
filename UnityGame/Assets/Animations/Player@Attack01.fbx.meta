@@ -64,6 +64,20 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.15223098
+        functionName: AttackStart
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 890b28f81c6b21744bd605bb6017ea7c, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.27034122
+        functionName: AttackEnd
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 890b28f81c6b21744bd605bb6017ea7c, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 1
         functionName: ArrowTrue
         data: 

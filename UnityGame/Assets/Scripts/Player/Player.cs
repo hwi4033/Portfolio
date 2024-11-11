@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animations))]
+[RequireComponent(typeof(PlayerAttack))]
 [RequireComponent(typeof(PlayerMove))]
 [RequireComponent(typeof(PlayerJump))]
 [RequireComponent(typeof(ItemInteraction))]
@@ -12,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] Rigidbody rigidBody;
 
     [SerializeField] Animations animations;
+    [SerializeField] PlayerAttack playerAttack;
     [SerializeField] PlayerMove playerMove;
     [SerializeField] PlayerJump playerJump;
     [SerializeField] ItemInteraction itemInteraction;
@@ -21,6 +23,7 @@ public class Player : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
 
         animations = GetComponent<Animations>();
+        playerAttack = GetComponent<PlayerAttack>();
         playerMove = GetComponent<PlayerMove>();
         playerJump = GetComponent<PlayerJump>();
         itemInteraction = GetComponent<ItemInteraction>();

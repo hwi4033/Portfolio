@@ -6,6 +6,7 @@ using UnityEngine;
 public class Animations : MonoBehaviour
 {
     [SerializeField] Animator animator;
+
     private float hAxis;
     private float vAxis;
     private bool arrowControl = true;
