@@ -9,6 +9,7 @@ TagManager:
   - Collision
   - Weapon
   - Enemy
+  - WeaponPivot
   layers:
   - Default
   - TransparentFX
