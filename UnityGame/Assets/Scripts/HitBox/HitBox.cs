@@ -9,7 +9,6 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
-    [SerializeField] Rigidbody rigidBody;
     [SerializeField] HitBoxDetection hitBoxDetection;
     [SerializeField] HitBoxMove hitBoxMove;
     [SerializeField] HitBoxCollision hitBoxCollision;
@@ -20,7 +19,6 @@ public class HitBox : MonoBehaviour
 
     private void Awake()
     {
-        rigidBody = GetComponent<Rigidbody>();
         hitBoxDetection = GetComponent<HitBoxDetection>();
         hitBoxMove = GetComponent<HitBoxMove>();
         hitBoxCollision = GetComponent<HitBoxCollision>();
@@ -46,7 +44,7 @@ public class HitBox : MonoBehaviour
     {
         if (isDetected == true)
         {
-            hitBoxMove.Move(rigidBody, playerPosition);
+            hitBoxMove.Move(playerPosition);
         }
     }
 }
